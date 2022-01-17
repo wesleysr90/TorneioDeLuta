@@ -1,0 +1,58 @@
+﻿@model TorneioDeLuta.Application.ViewModels.ResultadoViewModel
+
+@{
+    ViewData["Title"] = "Torneio de Luta";
+}
+
+
+
+<div style="text-align:center">
+    <h1>Resultado</h1>
+</div>
+
+<div class="container">
+    @using (Html.BeginForm("Index", "Torneio", FormMethod.Post))
+    {
+    <div class="row">
+
+
+        <div class="card col-6 offset-3" style="width: 18rem; margin-top: 20px;padding:0px;">
+            <div class="card-header">
+                Primeiro
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@Model.Primeiro</li>
+            </ul>
+        </div>
+        <br>
+        <div class="card col-6 offset-3" style="width: 18rem; margin-top: 20px; padding: 0px;">
+            <div class="card-header">
+                Segundo
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@Model.Segundo</li>
+            </ul>
+        </div>
+        <br>
+        <div class="card col-6 offset-3" style="width: 18rem; margin-top: 20px; padding:0px;">
+            <div class="card-header">
+                Terceiro
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">@Model.Terceiro</li>
+            </ul>
+        </div>
+
+        <div class="col-12" style="text-align:center;margin-top:20px;">
+            <input class="btn btn-warning" type="submit" value="Novo Torneio" />
+        </div>
+
+    </div>
+
+        
+
+        
+
+    }
+
+</div>
