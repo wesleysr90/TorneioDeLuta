@@ -31,7 +31,7 @@ namespace WebApplication1.Controllers
                         result.First(x => x.Id == lutador.Id).Selecionado = true;
 
                     viewTorneio.Mensagem = viewAux.Mensagem;
-                    viewTorneio.TipoMensagem = viewAux.TipoMensagem;
+                    viewTorneio.Status = viewAux.Status;
 
                     TempData["Mensagem"] = null;
                 }
@@ -44,7 +44,7 @@ namespace WebApplication1.Controllers
                 TorneioViewModel viewTorneio = new TorneioViewModel();
 
                 viewTorneio.Mensagem = ex.Message;
-                viewTorneio.TipoMensagem = 1;
+                viewTorneio.Status = TorneioDeLuta.Application.Enum.StatusMensagem.Erro;
                 return View(viewTorneio);
             }
             finally
@@ -65,7 +65,7 @@ namespace WebApplication1.Controllers
                     var viewModel = new TorneioViewModel();
                     viewModel.Lutadores = lista;
                     viewModel.Mensagem = "São necessarios 20 lutadores para inicio do torneio.";
-                    viewModel.TipoMensagem = 2;
+                    viewModel.Status = TorneioDeLuta.Application.Enum.StatusMensagem.Alerta;
 
                     TempData["Mensagem"] = JsonConvert.SerializeObject(viewModel);
 

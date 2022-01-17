@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using TorneioDeLuta.Application.Enum;
 
 namespace TorneioDeLuta.Application.ViewModels
 {
@@ -12,7 +13,8 @@ namespace TorneioDeLuta.Application.ViewModels
         }
         public List<LutadorViewModel> Lutadores { get; set; }
         public string Mensagem { get; set; }
-        public int TipoMensagem { get; set; }
+
+        public StatusMensagem Status;
 
         public int TotalSelecionado { get; set; }
     }

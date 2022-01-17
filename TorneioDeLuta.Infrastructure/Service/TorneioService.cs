@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -11,6 +12,11 @@ namespace TorneioDeLuta.Infrastructure.Service
 {
     public class TorneioService : ITorneioService
     {
+        private IConfiguration _configuration;
+        public TorneioService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public async Task<List<Lutador>> GetLutadoresAsync()
         {
@@ -19,15 +25,13 @@ namespace TorneioDeLuta.Infrastructure.Service
                 
                 HttpClient httpClient = new HttpClient();
                 HttpRequestMessage request = new HttpRequestMessage();
-                request.RequestUri = new Uri("https://apidev-mbb.t-systems.com.br:8443/edgemicro_tsdev/torneioluta/api/competidores");
-                request.Method = HttpMethod.Get;
-                request.Headers.Add("x-api-key", "29452a07-5ff9-4ad3-b472-c7243f548a33");
+                request.RequestUri = new Uri(_configuration["Torneio:UrlTorneio"]);
+                request.Method = HttpMethod.Get;       
+                request.Headers.Add("x-api-key", _configuration["Torneio:Key"]);
                 HttpResponseMessage response = await  httpClient.SendAsync(request);
                 
                 var responseString = await response.Content.ReadAsStringAsync();
-                
-                
-              
+                            
                 if (response.StatusCode != System.Net.HttpStatusCode.OK)              
                     throw new Exception(response.RequestMessage.ToString() + " - " + response.StatusCode.ToString());
                 
