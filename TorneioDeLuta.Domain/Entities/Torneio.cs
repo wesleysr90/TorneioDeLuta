@@ -13,24 +13,26 @@ namespace TorneioDeLuta.Domain.Entities
             vencedores = new Resultado();
         }
 
-        public List<Lutador> Lutadores {get;set;}
+        public List<Lutador> Lutadores { get; set; }
 
         public Resultado vencedores { get; set; }
-        public void IniciarTorneio ()
+        public void IniciarTorneio()
         {
             var grupos = Grupos();
 
+            #region FAZE DE GRUPO
             foreach (var grupo in grupos)
             {
                 for (int i = 0; i < grupo.Lutadores.Count; i++)
                 {
-                    var resultadoVitoria = grupo.Lutadores.Where(x =>  x.Pontuacao() < grupo.Lutadores[i].Pontuacao() && x.Id != grupo.Lutadores[i].Id).ToList().Count;
-                    
+                    var resultadoVitoria = grupo.Lutadores.Where(x => x.Pontuacao() < grupo.Lutadores[i].Pontuacao() && x.Id != grupo.Lutadores[i].Id).ToList().Count;
+
                     var listaEmpate = grupo.Lutadores.Where(x => grupo.Lutadores[i].Pontuacao() == x.Pontuacao() && x.Id != grupo.Lutadores[i].Id).ToList();
 
                     foreach (var item in listaEmpate)
                     {
-                        
+
+                        #region CRITERIO PARA DESEMPATE
                         if (grupo.Lutadores[i].TotalArtesMarciais() > item.TotalArtesMarciais())//Primeiro criterio de desempate
                         {
                             resultadoVitoria = resultadoVitoria + 1;
@@ -39,6 +41,7 @@ namespace TorneioDeLuta.Domain.Entities
                         {
                             resultadoVitoria = resultadoVitoria + 1;
                         }
+                        #endregion
                     }
 
                     grupo.Lutadores[i].VitoriasNoTorneio = resultadoVitoria;
@@ -50,8 +53,10 @@ namespace TorneioDeLuta.Domain.Entities
                 grupo.Lutadores.RemoveRange(2, 3);
 
             }
+            #endregion
 
 
+            #region QUARTAS DE FINAL
             var grupoSemifinal = new Grupo();
 
             if (grupos[0].Lutadores[0].Pontuacao() > grupos[1].Lutadores[1].Pontuacao())
@@ -64,6 +69,7 @@ namespace TorneioDeLuta.Domain.Entities
             }
             else
             {
+                #region CRITERIO DESEMPATE
                 if (grupos[0].Lutadores[0].TotalArtesMarciais() > grupos[1].Lutadores[1].TotalArtesMarciais())
                 {
                     grupoSemifinal.Lutadores.Add(grupos[0].Lutadores[0]);
@@ -83,7 +89,9 @@ namespace TorneioDeLuta.Domain.Entities
                         grupoSemifinal.Lutadores.Add(grupos[1].Lutadores[1]);
                     }
                 }
+                #endregion
             }
+
 
 
 
@@ -97,6 +105,7 @@ namespace TorneioDeLuta.Domain.Entities
             }
             else
             {
+                #region CRITERIO DESEMPATE
                 if (grupos[0].Lutadores[1].TotalArtesMarciais() > grupos[1].Lutadores[0].TotalArtesMarciais())
                 {
                     grupoSemifinal.Lutadores.Add(grupos[0].Lutadores[1]);
@@ -116,6 +125,7 @@ namespace TorneioDeLuta.Domain.Entities
                         grupoSemifinal.Lutadores.Add(grupos[1].Lutadores[0]);
                     }
                 }
+                #endregion
             }
 
             if (grupos[2].Lutadores[0].Pontuacao() > grupos[3].Lutadores[1].Pontuacao())
@@ -128,6 +138,7 @@ namespace TorneioDeLuta.Domain.Entities
             }
             else
             {
+                #region CRITERIO DESEMPATE
                 if (grupos[2].Lutadores[0].TotalArtesMarciais() > grupos[3].Lutadores[1].TotalArtesMarciais())
                 {
                     grupoSemifinal.Lutadores.Add(grupos[2].Lutadores[0]);
@@ -147,6 +158,7 @@ namespace TorneioDeLuta.Domain.Entities
                         grupoSemifinal.Lutadores.Add(grupos[3].Lutadores[1]);
                     }
                 }
+                #endregion
             }
 
 
@@ -162,6 +174,7 @@ namespace TorneioDeLuta.Domain.Entities
             }
             else
             {
+                #region CRITERIO DESEMPATE
                 if (grupos[2].Lutadores[1].TotalArtesMarciais() > grupos[3].Lutadores[0].TotalArtesMarciais())
                 {
                     grupoSemifinal.Lutadores.Add(grupos[2].Lutadores[1]);
@@ -181,9 +194,12 @@ namespace TorneioDeLuta.Domain.Entities
                         grupoSemifinal.Lutadores.Add(grupos[3].Lutadores[0]);
                     }
                 }
+                #endregion
             }
 
+            #endregion
 
+            #region SEMI FINAL
             var grupofinal = new Grupo();
             var grupofinalTerceiroLugar = new Grupo();
 
@@ -199,6 +215,7 @@ namespace TorneioDeLuta.Domain.Entities
             }
             else
             {
+                #region CRITERIO DESEMPATE
                 if (grupoSemifinal.Lutadores[0].TotalArtesMarciais() > grupoSemifinal.Lutadores[1].TotalArtesMarciais())
                 {
                     grupofinal.Lutadores.Add(grupoSemifinal.Lutadores[0]);
@@ -222,6 +239,7 @@ namespace TorneioDeLuta.Domain.Entities
                         grupofinalTerceiroLugar.Lutadores.Add(grupoSemifinal.Lutadores[0]);
                     }
                 }
+                #endregion
             }
 
 
@@ -237,6 +255,7 @@ namespace TorneioDeLuta.Domain.Entities
             }
             else
             {
+                #region CRITERIO DESEMPATE
                 if (grupoSemifinal.Lutadores[2].TotalArtesMarciais() > grupoSemifinal.Lutadores[3].TotalArtesMarciais())
                 {
                     grupofinal.Lutadores.Add(grupoSemifinal.Lutadores[2]);
@@ -260,12 +279,12 @@ namespace TorneioDeLuta.Domain.Entities
                         grupofinalTerceiroLugar.Lutadores.Add(grupoSemifinal.Lutadores[2]);
                     }
                 }
-            }
+                #endregion
+            } 
+            #endregion
 
 
-
-          
-
+            #region FINAL
             if (grupofinalTerceiroLugar.Lutadores[0].Pontuacao() > grupofinalTerceiroLugar.Lutadores[1].Pontuacao())
             {
                 vencedores.Terceiro = grupofinalTerceiroLugar.Lutadores[0].Nome;
@@ -276,6 +295,7 @@ namespace TorneioDeLuta.Domain.Entities
             }
             else
             {
+                #region CRITERIO DESEMPATE
                 if (grupofinalTerceiroLugar.Lutadores[0].TotalArtesMarciais() > grupofinalTerceiroLugar.Lutadores[1].TotalArtesMarciais())
                 {
                     vencedores.Terceiro = grupofinalTerceiroLugar.Lutadores[0].Nome;
@@ -295,6 +315,7 @@ namespace TorneioDeLuta.Domain.Entities
                         vencedores.Terceiro = grupofinalTerceiroLugar.Lutadores[1].Nome;
                     }
                 }
+                #endregion
             }
 
             if (grupofinal.Lutadores[0].Pontuacao() > grupofinal.Lutadores[1].Pontuacao())
@@ -309,6 +330,7 @@ namespace TorneioDeLuta.Domain.Entities
             }
             else
             {
+                #region CRITERIO DESEMPATE
                 if (grupofinal.Lutadores[0].TotalArtesMarciais() > grupofinal.Lutadores[1].TotalArtesMarciais())
                 {
                     vencedores.Primeiro = grupofinal.Lutadores[0].Nome;
@@ -332,11 +354,9 @@ namespace TorneioDeLuta.Domain.Entities
                         vencedores.Segundo = grupofinal.Lutadores[0].Nome;
                     }
                 }
+                #endregion
             }
-
-
-
-
+            #endregion
 
         }
 
@@ -352,14 +372,14 @@ namespace TorneioDeLuta.Domain.Entities
                 Grupo grupo = new Grupo();
 
                 grupo.IdGrupo = i;
-                grupo.Lutadores.AddRange(listaAux); 
+                grupo.Lutadores.AddRange(listaAux);
 
                 Lutadores.RemoveRange(0, 5);
 
                 grupos.Add(grupo);
             }
 
-           
+
 
             return grupos;
 
