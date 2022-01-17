@@ -13,6 +13,7 @@ namespace TorneioDeLuta.Application.Mappings
         {
             CreateMap<Lutador, LutadorViewModel>();
             CreateMap<Resultado, ResultadoViewModel>();
+            CreateMap<LutadorViewModel, Lutador>();
         }
 
 

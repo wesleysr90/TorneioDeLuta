@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TorneioDeLuta.Application\TorneioDeLuta.Application.csproj" />
     <ProjectReference Include="..\TorneioDeLuta.Infrastructure\TorneioDeLuta.Infrastructure.csproj" />
+    <ProjectReference Include="..\WebApplication1\TorneioDeLuta.UI.csproj" />
   </ItemGroup>
 
 </Project>

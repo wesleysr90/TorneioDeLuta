@@ -5,13 +5,7 @@
     ViewData["Title"] = "Torneio de Luta";
 }
 
-<style>
-    .box {
-        top: 50px; /* altura que vai parar antes do topo */
-        position: sticky;
-        
-    }
-</style>
+
 
 <div style="text-align:center">
     <h1>Torneio de Luta</h1>
@@ -47,7 +41,7 @@
                     <h4 id="Total-Lutadores" style="">Total Lutadores: @Model.TotalSelecionado</h4>
                 </div>
                 <div class="col-6 offset-6">
-                    <input class="btn btn-warning" type="submit" style="color:white;width:230px;height:50px;" value="Iniciar Torneio!!!" />
+                    <input class="btn btn-warning btn-inicio-torneio" type="submit" value="Iniciar Torneio!!!" />
                 </div>
             </div>
 
@@ -57,7 +51,7 @@
             @for (int i = 0; i < Model.Lutadores.Count(); i++)
             {
 
-                <div class="card-body col-3 border border-primary" style="margin: 5px; list-style: none;padding:0px;">
+                <div class="card-body col-3 border border-primary card-lutadores">
                     <ul style="height: 300px; list-style: none; padding: 5px;">
 
                         <li><b>Id:</b> @Model.Lutadores[i].Id</li>
